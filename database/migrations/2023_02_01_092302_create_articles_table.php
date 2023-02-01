@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('author', 50);
             $table->text('description');
-            $table->timestamps();
+            $table->timestamp('creation_date');
+            $table->timestamp('publication_date')->nullable();
 
             $table->index(['author']);
         });
