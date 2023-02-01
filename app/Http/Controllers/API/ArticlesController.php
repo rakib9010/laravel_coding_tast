@@ -18,7 +18,7 @@ class ArticlesController extends Controller
     public function list()
     {
         return ArticlesResource::collection(
-            Article::all()
+            Article::whereRaw('expired IS NULL OR expired > NOW()')->get()
         );
     }
 
@@ -26,7 +26,7 @@ class ArticlesController extends Controller
      * Display the specified resource.
      *
      * @param  Article $article
-     * @return \Illuminate\Http\Response
+     * @return ArticlesResource
      */
     public function get(Article $article)
     {
@@ -38,18 +38,16 @@ class ArticlesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreArticleRequest $request
-     * @return \Illuminate\Http\Response
+     * @return ArticlesResource
      */
     public function store(StoreArticleRequest $request)
     {
         $request->validated();
+        $data = $request->all();
+        $data['publication_date'] ??= null;
+        $data['publication_date'] ??= null;
 
-        $article = Article::create([
-            'title' => $request->title,
-            'author' => $request->author,
-            'description' => $request->description, 
-            'publication_date' => $request->publication_date ?: null,
-        ]);
+        $article = Article::create($data);
 
         return new ArticlesResource($article);
     }
@@ -59,7 +57,7 @@ class ArticlesController extends Controller
      *
      * @param  StoreArticleRequest $request
      * @param  Article $article
-     * @return \Illuminate\Http\Response
+     * @return ArticlesResource
      */
     public function update(Article $article, StoreArticleRequest $request)
     {
