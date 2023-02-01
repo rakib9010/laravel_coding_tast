@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Artical extends Model
+class Article extends Model
 {
     use HasFactory;
 
     const CREATED_AT = 'creation_date';
     const UPDATED_AT = null;
+
+    protected $fillable = [
+        'title', 'author', 'description', 'publication_date'
+    ];
 }

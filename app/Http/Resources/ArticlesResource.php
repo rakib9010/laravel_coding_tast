@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ArticalsResource extends JsonResource
+class ArticlesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,8 +21,10 @@ class ArticalsResource extends JsonResource
             'creation_date' => $this->creation_date,
             'publication_date' => $this->publication_date,
         ];
+
+        $action = substr(strstr($request->route()->getActionName(), '@'), 1);
         
-        if(in_array(Route::getActionName(), ['edit', 'view'])) {
+        if(in_array($action, ['edit', 'show'])) {
             $data['text'] = $this->description;
         }
 
